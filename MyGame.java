@@ -48,16 +48,16 @@ class MyGame extends NGCKGame {
 	    //ih.status();
 	    
 	    //update input
-	    if (ih.up())
+	    if (KeyUp())
 		locy--;
-	    if (ih.down())
+	    if (KeyDown())
 		locy++;	
-	    if (ih.left())
+	    if (KeyLeft())
 		locx--;
-	    if (ih.right())
+	    if (KeyRight())
 		locx++;
 
-	    if (ih.button1())
+	    if (KeyButton1())
 		changeColor();
 	    
 	    if (locx<0 ) locx=0;

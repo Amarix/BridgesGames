@@ -6,22 +6,46 @@ import bridges.base.Color;
 abstract class NGCKGame {
 
     /// the game map.
-    int rows = 30;
-    int cols = 30;
-    ColorGrid grid;
+    private int rows = 30;
+    private int cols = 30;
+    private ColorGrid grid;
 
     ///Bridges interaction
-    Bridges bridges;
-    SocketConnection sock;
+    private Bridges bridges;
+    private SocketConnection sock;
 
     /// this stores  the JSON representation that will be sent to the BRIDGES server.
-    String gridJSON;
+    private String gridJSON;
 
     ///helper class to make Input Management a bit easier.
-    public InputHelper ih;
+    private InputHelper ih;
 
     ///used for fps control
-    long timeoflastframe;
+    private long timeoflastframe;
+
+    protected boolean KeyLeft() {
+	return ih.left();
+    }
+
+    protected boolean KeyRight() {
+	return ih.right();
+    }
+
+    protected boolean KeyUp() {
+	return ih.up();
+    }
+
+    protected boolean KeyDown() {
+	return ih.down();
+    }
+
+    protected boolean KeyButton1() {
+	return ih.button1();
+    }
+    
+    protected boolean KeyButton2() {
+	return ih.button2();
+    }
     
     ///takes bridges credential and information as a parameter.
     public NGCKGame(int assid, String login, String apiKey) {
