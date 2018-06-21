@@ -30,45 +30,17 @@ public class Game implements KeypressListener {
 	// TODO: there is probably a better way to set this all up eventually.
 	public static void main(String[] args) throws Exception{
 		
-		// bridges-sockets account (you need to make a new account: https://bridges-sockets.herokuapp.com/signup)
-		bridges = new Bridges(, "", "");
-
-		//local account (you will probably not use this unless you run a local version of the socket server)
-		// bridges = new Bridges(, "", "");
-
-		// make sure the bridges connects to the socket version of the web app
-		bridges.setServer("sockets");
-		
-		bridges.setTitle("Simple Color Grid Socket Game");
-		bridges.setDescription("Use the arrow keys to change the color of the grid");
-		
-		// create a new color grid with random color 
-		grid = new ColorGrid(rows, cols, getRandomColor());
-		
-		// set up socket connection to receive and send data
-		sock = new SocketConnection();
-		sock.setupConnection(bridges.getUserName(), bridges.getAssignment());	
-		
-		// game will now listen for keypresses from the socket
-		Game game = new Game();
-	    sock.addListener(game);
+	    MyGame mg = new MyGame (1, "esaule-interactive", "1239999531573");
 	    
+		
 	    // start running the game
-	    game.start();
+	    mg.start();
 	}
 	
 	// generate the first board and visualize the grid
 	public void start() {
 
-		// associate the grid with the Bridges object
-		bridges.setDataStructure(grid);
-
-		// visualize the grid
-		try{
-			bridges.visualize();
-		} catch (Exception err) {
-			System.out.println(err);
-		}
+		
 	}
 
 	//handle keypress events from socket (currently fired by keydown and keyup events) 
@@ -108,13 +80,6 @@ public class Game implements KeypressListener {
 			System.out.println(err);
 		}
 		 
-		// get the JSON representation of the updated color grid
-		String gridState = grid.getDataStructureRepresentation();
-		String gridJSON = '{' + gridState;
-		System.out.println(gridJSON);
-  
-		// send valid JSON for grid into the socket
-		sock.sendData(gridJSON);
 	}
 	
 	
