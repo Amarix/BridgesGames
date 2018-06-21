@@ -1,5 +1,3 @@
-
-
 import bridges.connect.Bridges;
 import bridges.base.ColorGrid;
 import bridges.base.Color;
@@ -13,12 +11,16 @@ abstract class NGCKGame {
     Bridges bridges;
     SocketConnection sock;
 
-    public InputHelper ih;
-
+    String gridJSON;
     
+    public InputHelper ih;
+    
+    long timeoflastframe;
     
     public NGCKGame(int assid, String login, String apiKey) {
 
+	timeoflastframe = System.currentTimeMillis();
+	
 	// bridges-sockets account (you need to make a new account: https://bridges-sockets.herokuapp.com/signup)
 	bridges = new Bridges(assid, login, apiKey);
 
@@ -50,12 +52,15 @@ abstract class NGCKGame {
     
     public abstract void GameLoop();
 
-    private void render(){
+    private void prepareRender() {
 	// get the JSON representation of the updated color grid
 	String gridState = grid.getDataStructureRepresentation();
-	String gridJSON = '{' + gridState;
+	gridJSON = '{' + gridState;
 	//System.out.println(gridJSON);
-	
+    }
+    
+    private void render(){
+
 	// send valid JSON for grid into the socket
 	sock.sendData(gridJSON);
     }
@@ -64,12 +69,19 @@ abstract class NGCKGame {
 	int fps = 30;
 	double hz = 1./fps;
 
-	try {
-	    Thread.sleep((int)(hz*1000)); //this is super crude
+	long currenttime = System.currentTimeMillis();
+	long theoreticalnextframe = timeoflastframe + (int)(hz*1000);
+	long waittime = theoreticalnextframe - currenttime;
+
+	if (waittime > 0) {
+	    try {
+		Thread.sleep(waittime); //this is super crude
+	    }
+	    catch (InterruptedException ie) {
+		//die?
+	    }
 	}
-	catch (InterruptedException ie) {
-	    //die?
-	}
+	timeoflastframe = System.currentTimeMillis();
     }
     
     public void start() {
@@ -96,6 +108,7 @@ abstract class NGCKGame {
 	while (true) {
 	    GameLoop();
 	    
+	    prepareRender();
 	    controlFrameRate();
 	    render();
 	    //System.out.println("rendered");
