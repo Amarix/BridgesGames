@@ -12,7 +12,7 @@ class GameMovement extends NGCKGame {
 
     int currentframe;
     
-    public MyGame (int assid, String login, String apiKey) {
+    public GameMovement (int assid, String login, String apiKey) {
 	super(assid, login, apiKey);
 
 	r = 255;
