@@ -23,26 +23,32 @@ abstract class NGCKGame {
     ///used for fps control
     private long timeoflastframe;
 
+    /// @return true if "left" is pressed
     protected boolean KeyLeft() {
 	return ih.left();
     }
 
+    /// @return true if "right" is pressed
     protected boolean KeyRight() {
 	return ih.right();
     }
 
+    /// @return true if "up" is pressed
     protected boolean KeyUp() {
 	return ih.up();
     }
 
+    /// @return true if "down" is pressed
     protected boolean KeyDown() {
 	return ih.down();
     }
 
+    /// @return true if "button1" is pressed
     protected boolean KeyButton1() {
 	return ih.button1();
     }
-    
+
+    /// @return true if "button2" is pressed
     protected boolean KeyButton2() {
 	return ih.button2();
     }
@@ -72,7 +78,13 @@ abstract class NGCKGame {
 	ih = new InputHelper(sock);
     }
 
-
+    ///set background collor of cell x, y  to (r,g,b)
+    ///
+    ///@param x between 0 and 29
+    ///@param y between 0 and 29
+    ///@param r between 0 and 255
+    ///@param g between 0 and 255
+    ///@param b between 0 and 255
     public void SetColor(int x, int y, int r, int g, int b) {
 	grid.set(y, x, new Color(r,g,b));
     }
