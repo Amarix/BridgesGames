@@ -12,6 +12,10 @@ class MyGame extends NGCKGame {
 
     int leftwall[];
     int rightwall[];
+    int roadwidth;
+
+    int shrinkframe; //current frame in the shrink cycle
+    int shrinkevery; //when to shrink
     
     public MyGame (int assid, String login, String apiKey) {
 	super(assid, login, apiKey);
@@ -20,6 +24,8 @@ class MyGame extends NGCKGame {
     }
     
     public void initialize(){
+	
+	
 	locx = 15;
 	locy = 28;
 
@@ -36,18 +42,23 @@ class MyGame extends NGCKGame {
 	leftwall = new int[30];
 	rightwall = new int[30];
 
+	roadwidth = 19;
+	
 	for (int i=0; i<10; ++i) {
 	    leftwall[i] = i;
-	    rightwall[i] = leftwall[i]+19;
+	    rightwall[i] = leftwall[i]+roadwidth;
 	}
 	for (int i=10; i<20; ++i) {
 	    leftwall[i] = 20-i;
-	    rightwall[i] = leftwall[i]+19;
+	    rightwall[i] = leftwall[i]+roadwidth;
 	}
 	for (int i=20; i<30; ++i) {
 	    leftwall[i] = i-20;
-	    rightwall[i] = leftwall[i]+19;
+	    rightwall[i] = leftwall[i]+roadwidth;
 	}
+
+	shrinkevery = 30*10; //10 seconds
+	shrinkframe = 0;
     }
 
     public void handleInput() {
@@ -107,24 +118,48 @@ class MyGame extends NGCKGame {
 	    rightwall[i] = rightwall[i-1];
 	}
 	
+
 	//generate new road
-	int ra = randomizer.nextInt();
-	if (ra < 0)
-	    leftwall[0]--;
-	else if (ra > 0)
-	    leftwall[0]++;
 
-	if (leftwall[0] < 0)
-	    leftwall[0] = 0;
 
-	int distance = 19;
+	//is it a shrink frame?
+	shrinkframe++;
+	if (shrinkframe == shrinkevery) {
+	    shrinkframe = 0;
+
+	    int ra = randomizer.nextInt();
+	    roadwidth --;
+	    if (ra < 0) {
+		//shrink left
+		leftwall[0]++;
+	    }
+	    else {
+		rightwall[0]--;
+	    }
+	    
+	}
+	else {
+	    //not a shrink frame.
+	    //generate next bit of road randomly
+
+	    int ra = randomizer.nextInt();
+
+	    if (ra < 0)
+		leftwall[0]--;
+	    else if (ra > 0)
+		leftwall[0]++;
+	    
+	    if (leftwall[0] < 0)
+		leftwall[0] = 0;
+	    
+	    
+	    if (leftwall[0] > 29 - roadwidth)
+		leftwall[0] = 29-roadwidth;
+	    
+	    rightwall[0] = leftwall[0]+roadwidth;
+	}
+    }	
 	
-	if (leftwall[0] > 29 - distance)
-	    leftwall[0] = 29-distance;
-
-	rightwall[0] = leftwall[0]+distance;
-    }
-    
     public void GameLoop(){
 	handleInput();
 
