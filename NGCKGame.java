@@ -4,21 +4,27 @@ import bridges.base.Color;
 
 
 abstract class NGCKGame {
+
+    /// the game map.
     int rows = 30;
     int cols = 30;
     ColorGrid grid;
-    String gridState = "";
+
+    ///Bridges interaction
     Bridges bridges;
     SocketConnection sock;
 
+    /// this stores  the JSON representation that will be sent to the BRIDGES server.
     String gridJSON;
-    
+
+    ///helper class to make Input Management a bit easier.
     public InputHelper ih;
-    
+
+    ///used for fps control
     long timeoflastframe;
     
+    ///takes bridges credential and information as a parameter.
     public NGCKGame(int assid, String login, String apiKey) {
-
 	timeoflastframe = System.currentTimeMillis();
 	
 	// bridges-sockets account (you need to make a new account: https://bridges-sockets.herokuapp.com/signup)
@@ -40,7 +46,6 @@ abstract class NGCKGame {
 	sock.setupConnection(bridges.getUserName(), bridges.getAssignment());	
 
 	ih = new InputHelper(sock);
-	
     }
 
 
@@ -48,23 +53,36 @@ abstract class NGCKGame {
 	grid.set(y, x, new Color(r,g,b));
     }
 
+
+    /// function to define by the programmer. This function is called
+    /// once at the beginning.
     public abstract void initialize();
-    
+
+    /// function to define by the programmer. This function is called
+    /// once per frame.
     public abstract void GameLoop();
 
+
+    /// This function prepare all that is needde to be able to render
+    /// as fast as possible. Here it builds the correct representation
+    /// to send to the server.
     private void prepareRender() {
 	// get the JSON representation of the updated color grid
 	String gridState = grid.getDataStructureRepresentation();
 	gridJSON = '{' + gridState;
 	//System.out.println(gridJSON);
     }
-    
+
+    ///send the representation to the serverf
     private void render(){
 
 	// send valid JSON for grid into the socket
 	sock.sendData(gridJSON);
     }
-    
+
+    /// should be called right before render() Aims at having a fixed
+    /// fps of 30 frames per second.  This work by waiting until
+    /// 1/30th of a second after the last call to this function.
     private void controlFrameRate(){
 	int fps = 30;
 	double hz = 1./fps;
@@ -83,9 +101,9 @@ abstract class NGCKGame {
 	}
 	timeoflastframe = System.currentTimeMillis();
     }
-    
-    public void start() {
 
+    /// calling this function starts the game engine.
+    public void start() {
 	try {
 	    Thread.sleep(5*1000); //wait for browser to connect
 	}
