@@ -85,7 +85,7 @@ abstract class NGCKGame {
     ///@param r between 0 and 255
     ///@param g between 0 and 255
     ///@param b between 0 and 255
-    public void SetColor(int x, int y, int r, int g, int b) {
+    protected void SetColor(int x, int y, int r, int g, int b) {
 	grid.set(y, x, new Color(r,g,b));
     }
 
