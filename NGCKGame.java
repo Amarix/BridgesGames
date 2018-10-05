@@ -1,6 +1,8 @@
 import bridges.connect.Bridges;
 import bridges.base.ColorGrid;
 import bridges.base.Color;
+import bridges.base.NamedColor;
+import bridges.base.GameGrid;
 
 
 abstract class NGCKGame {
@@ -8,7 +10,7 @@ abstract class NGCKGame {
     /// the game map.
     private int rows = 30;
     private int cols = 30;
-    private ColorGrid grid;
+    private GameGrid grid;
 
     ///Bridges interaction
     private Bridges bridges;
@@ -69,7 +71,7 @@ abstract class NGCKGame {
 	bridges.setDescription("Description");
 		
 	// create a new color grid with random color 
-	grid = new ColorGrid(rows, cols);
+	grid = new GameGrid(rows, cols);
 
 	// set up socket connection to receive and send data
 	sock = new SocketConnection();
@@ -85,8 +87,8 @@ abstract class NGCKGame {
     ///@param r between 0 and 255
     ///@param g between 0 and 255
     ///@param b between 0 and 255
-    protected void SetColor(int x, int y, int r, int g, int b) {
-	grid.set(y, x, new Color(r,g,b));
+    protected void SetBGColor(int x, int y, NamedColor c) {
+	grid.setBGColor(y, x, c);
     }
 
 

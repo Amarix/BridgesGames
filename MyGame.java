@@ -1,3 +1,4 @@
+import bridges.base.NamedColor;
 
 class MyGame extends NGCKGame {
     int locx; //location of the car
@@ -5,9 +6,9 @@ class MyGame extends NGCKGame {
     
     java.util.Random  randomizer;
 
-    int car_r, car_g, car_b;
-    int wall_r, wall_g, wall_b;
 
+    NamedColor wall_c, car_c, bg_c;
+    
     int input_currentframe;
 
     int leftwall[];
@@ -29,13 +30,9 @@ class MyGame extends NGCKGame {
 	locx = 15;
 	locy = 28;
 
-	car_r = 127;
-	car_g = 127;
-	car_b = 127;
-
-	wall_r = 255;
-	wall_g = 255;
-	wall_b = 255;
+	wall_c= NamedColor.white;
+	car_c= NamedColor.gray;
+	bg_c= NamedColor.black;
 	
 	input_currentframe = 0;
 
@@ -79,9 +76,7 @@ class MyGame extends NGCKGame {
 
 
     public void die() {
-	car_r = 0;
-	car_g = 0;
-	car_b = 0;
+	car_c = NamedColor.black;
 
     }
     
@@ -96,18 +91,18 @@ class MyGame extends NGCKGame {
 	//paint black
 	for (int i=0; i<30; ++i) {
 	    for (int j=0; j<30; ++j) {
-		SetColor(i, j, 0, 0, 0);
+		SetBGColor(i, j, bg_c);
 	    }
 	}	
 	
 	//paint car
-	SetColor(locx, locy, car_r, car_g, car_b);
+	SetBGColor(locx, locy, car_c);
 
 	//render walls
 
 	for (int i=0; i< 30; ++i) {
-	    SetColor(leftwall[i], i, wall_r, wall_g, wall_b);
-	    SetColor(rightwall[i], i, wall_r, wall_g, wall_b);
+	    SetBGColor(leftwall[i], i, wall_c);
+	    SetBGColor(rightwall[i], i, wall_c);
 	}
     }
 
