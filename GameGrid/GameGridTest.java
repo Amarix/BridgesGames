@@ -1,4 +1,3 @@
-package GameGrid;
 
 import java.security.SecureRandom;
 
@@ -28,9 +27,9 @@ public class GameGridTest implements KeypressListener {
 	static int currSymbol = 0;
 	
 	public static void main(String[] args) throws Exception{
-		bridges = new Bridges(0, "testy", "1144791091404");
-		bridges.setServer("local");
-//		bridges.setServer("sockets");
+	    bridges = new Bridges(0, "esaule-interactive", "1239999531573");
+		//bridges.setServer("local");
+		bridges.setServer("sockets");
 		bridges.setTitle("Game Grid Symbol Test");
 		bridges.setDescription("hi");
 		

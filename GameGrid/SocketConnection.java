@@ -1,4 +1,3 @@
-package GameGrid;
 
 import io.socket.client.IO;
 import io.socket.emitter.Emitter;
@@ -37,10 +36,10 @@ class SocketConnection {
 		try{ // connect to the socket server
 			
 			// is the socket server running locally?
-			 socket = IO.socket("http://localhost:3000");
+		    //			 socket = IO.socket("http://localhost:3000");
 			
 			// is the socket server live?
-//			socket = IO.socket("https://bridges-sockets.herokuapp.com");
+		    			socket = IO.socket("https://bridges-sockets.herokuapp.com");
 			
 			
 			/*
