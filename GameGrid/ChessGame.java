@@ -1,4 +1,3 @@
-package GameGrid;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +35,8 @@ public class ChessGame implements KeypressListener {
 		
 		// get dog
 		
-		bridges = new Bridges(0, "test1", "1277541020216");
+	    //		bridges = new Bridges(0, "test1", "1277541020216");
+	    bridges = new Bridges(0, "esaule-interactive", "1239999531573");
 		bridges.setServer("sockets");
 		bridges.setTitle("Game Grid Chessboard (now with Sockets!)");
 		bridges.setDescription("en passant");

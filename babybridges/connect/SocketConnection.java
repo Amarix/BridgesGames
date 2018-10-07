@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 
 // Wrapper for a socket.io socket connection for BRIDGES
-class SocketConnection {
+public class SocketConnection {
 	
 	// This is the actual socket
 	private io.socket.client.Socket socket;

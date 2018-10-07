@@ -81,18 +81,24 @@ abstract class NGCKGame {
 	ih = new InputHelper(sock);
     }
 
-    ///set background collor of cell x, y  to (r,g,b)
+    ///set background color of cell x, y to c
     ///
-    ///@param x between 0 and 29
-    ///@param y between 0 and 29
-    ///@param r between 0 and 255
-    ///@param g between 0 and 255
-    ///@param b between 0 and 255
     protected void SetBGColor(int x, int y, NamedColor c) {
 	grid.setBGColor(y, x, c);
     }
 
+    ///set foreground color of cell x, y to c
+    ///
+    protected void SetFGColor(int x, int y, NamedColor c) {
+	grid.setFGColor(y, x, c);
+    }
 
+    ///set foreground color of cell x, y to s
+    ///
+    protected void SetSymbol(int x, int y, int s) {
+	grid.drawObject(y, x, s);
+    }
+    
     /// function to define by the programmer. This function is called
     /// once at the beginning.
     public abstract void initialize();

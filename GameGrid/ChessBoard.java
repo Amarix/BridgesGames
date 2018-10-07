@@ -1,4 +1,3 @@
-package GameGrid;
 
 import java.security.SecureRandom;
 
