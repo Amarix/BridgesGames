@@ -94,12 +94,14 @@ class MyGame extends NGCKGame {
 	for (int i=0; i<30; ++i) {
 	    for (int j=0; j<30; ++j) {
 		SetBGColor(i, j, bg_c);
+		SetSymbol(i, j, 0);
 	    }
 	}	
 	
 	//paint car
-	SetBGColor(locx, locy, car_c);
-
+	SetFGColor(locx, locy, car_c);
+	SetSymbol(locx, locy, 68);
+	
 	//render walls
 
 	for (int i=0; i< 30; ++i) {
