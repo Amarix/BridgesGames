@@ -11,9 +11,8 @@ import java.util.*;
 import org.json.JSONObject;
 
 
-
 // Wrapper for a socket.io socket connection for BRIDGES
-public class SocketConnection {
+class SocketConnection {
 	
 	// This is the actual socket
 	private io.socket.client.Socket socket;
@@ -33,7 +32,7 @@ public class SocketConnection {
 		try{ // connect to the socket server
 			
 			// is the socket server running locally?
-			// socket = IO.socket("http://localhost:3000");
+//			 socket = IO.socket("http://localhost:3000");
 			
 			// is the socket server live?
 			socket = IO.socket("https://bridges-sockets.herokuapp.com");
@@ -105,7 +104,7 @@ public class SocketConnection {
 	
 	
 	// Send a dataframe string to the socket server
-	// TODO: this currently emits a grid:recv event. We may need to refactor this to consider a variety of dataframe types 
+	// TODO: this currently emits a gamegrid:recv event. We may need to refactor this to consider a variety of dataframe types 
 	public void sendData(String dataframe) {
 		if(socket == null) {
 			System.out.println("Cannot send data - socket is not connected.");
@@ -113,6 +112,6 @@ public class SocketConnection {
 		}
 		 
 		// the server will receive the grid dataframe and attempt to pass it to any other sockets subscribed to the same channel 
-		socket.emit("grid:recv", dataframe);
+		socket.emit("gamegrid:recv", dataframe);
 	}
 }
