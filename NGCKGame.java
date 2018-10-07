@@ -4,6 +4,7 @@ import bridges.base.Color;
 import bridges.base.NamedColor;
 import bridges.base.GameGrid;
 
+import babybridges.connect.SocketConnection;
 
 abstract class NGCKGame {
 

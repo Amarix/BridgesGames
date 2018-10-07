@@ -1,6 +1,8 @@
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import babybridges.connect.SocketConnection;
+import babybridges.connect.KeypressListener;
 
 class InputHelper implements KeypressListener {
 

@@ -1,3 +1,5 @@
+package babybridges.connect;
+
 import io.socket.client.IO;
 import io.socket.emitter.Emitter;
 
@@ -9,13 +11,9 @@ import java.util.*;
 import org.json.JSONObject;
 
 
-//An interface to be implemented by everyone interested in "Keypress" events
-interface KeypressListener {
- void keypress(JSONObject keypress);
-}
 
 // Wrapper for a socket.io socket connection for BRIDGES
-class SocketConnection {
+public class SocketConnection {
 	
 	// This is the actual socket
 	private io.socket.client.Socket socket;

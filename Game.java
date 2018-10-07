@@ -5,6 +5,9 @@ import bridges.base.Color;
 import bridges.base.ColorGrid;
 import bridges.connect.Bridges;
 
+import babybridges.connect.KeypressListener;
+import babybridges.connect.SocketConnection;
+
 /* 
  *		This class is a first version of a rudimentary 'game' which:
  *			- sets up a socket connection to a socket server using bridges username and assignment number 
