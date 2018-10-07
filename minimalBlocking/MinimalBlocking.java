@@ -60,7 +60,8 @@ class MinimalBlocking {
 	    bg.render();
 	}
 
+	bg.quit();
 	System.out.println("quitting");
-	
+	    
     }
 }

@@ -122,4 +122,8 @@ public class BlockingGame implements KeypressListener {
 	// send valid JSON for grid into the socket
 	sock.sendData(gridJSON);
     }
+
+    public void quit() {
+	sock.close();
+    }
 }

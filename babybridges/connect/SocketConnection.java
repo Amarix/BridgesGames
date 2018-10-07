@@ -114,4 +114,9 @@ public class SocketConnection {
 		// the server will receive the grid dataframe and attempt to pass it to any other sockets subscribed to the same channel 
 		socket.emit("gamegrid:recv", dataframe);
 	}
+
+    public void close() {
+	socket.off();
+	socket.disconnect();
+    }
 }
