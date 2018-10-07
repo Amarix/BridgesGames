@@ -6,6 +6,7 @@ import bridges.base.ColorGrid;
 import bridges.connect.Bridges;
 
 import babybridges.connect.KeypressListener;
+import babybridges.game.NGCKGame;
 import babybridges.connect.SocketConnection;
 
 public class Game  {

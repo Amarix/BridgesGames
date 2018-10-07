@@ -1,3 +1,5 @@
+package babybridges.game;
+
 import bridges.connect.Bridges;
 import bridges.base.ColorGrid;
 import bridges.base.Color;
@@ -6,7 +8,7 @@ import bridges.base.GameGrid;
 
 import babybridges.connect.SocketConnection;
 
-abstract class NGCKGame {
+public abstract class NGCKGame {
 
     /// the game map.
     private int rows = 30;

@@ -1,4 +1,6 @@
 import bridges.base.NamedColor;
+import babybridges.game.NGCKGame;
+
 
 class MyGame extends NGCKGame {
     int locx; //location of the car
