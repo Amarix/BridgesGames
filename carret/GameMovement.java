@@ -1,9 +1,11 @@
+import babybridges.game.NGCKGame;
+import bridges.base.NamedColor;
 
 class GameMovement extends NGCKGame {
     int locx;
     int locy;
 
-    int r, g, b;
+    int c;
     
 
     java.util.Random  randomizer;
@@ -15,9 +17,7 @@ class GameMovement extends NGCKGame {
     public GameMovement (int assid, String login, String apiKey) {
 	super(assid, login, apiKey);
 
-	r = 255;
-	g = 255;
-	b = 255;
+	c=1;
 
 	randomizer = new java.util.Random();
     }
@@ -29,16 +29,11 @@ class GameMovement extends NGCKGame {
     }
     
     private void changeColor() {
-	r=randomizer.nextInt();
-	g=randomizer.nextInt();
-	b=randomizer.nextInt();
-
-	if (r < 0) {r = r/2; r = -r;}
-	if (g < 0) {g = g/2; g = -g;}
-	if (b < 0) {b = b/2; b = -b;}
-	r = r%256;
-	g = g%256;
-	b = b%256;
+	
+	c=randomizer.nextInt();
+	
+	if (c < 0) {c = -c;}
+	c = c%127;
     }
 
     public void GameLoop(){
@@ -72,12 +67,19 @@ class GameMovement extends NGCKGame {
 	//paint black
 	for (int i=0; i<30; ++i) {
 	    for (int j=0; j<30; ++j) {
-		SetColor(i, j, 0, 0, 0);
+		SetBGColor(i, j, NamedColor.black);
 	    }
 	}	
 	
 	//paint carret
-	SetColor(locx, locy, r, g, b);
+	SetBGColor(locx, locy, NamedColor.values()[c]);
     }
 
+    public static void main (String args[]) {
+	GameMovement mg = new GameMovement (1, "esaule-interactive", "1239999531573");
+	
+	// start running the game
+	mg.start();
+
+    }
 }
