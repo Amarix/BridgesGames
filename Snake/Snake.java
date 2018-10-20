@@ -1,4 +1,7 @@
+package Snake;
+
 import bridges.base.NamedColor;
+import bridges.base.NamedSymbol;
 import babybridges.game.NGCKGame;
 
 class Snake extends NGCKGame {
@@ -118,6 +121,7 @@ class Snake extends NGCKGame {
 		if (head.x == apple.x &&
 			head.y == apple.y) {
 			Block newTail = new Block(tail.x, tail.y);
+			DrawObject(apple.x, apple.y, NamedSymbol.none);
 			tail.next = newTail;
 			tail = newTail;
 			plantApple();
@@ -145,7 +149,8 @@ class Snake extends NGCKGame {
 		}
 		
 		SetBGColor(head.x, head.y, hc);
-		SetBGColor(apple.x, apple.y, ac);
+		
+		DrawObject(apple.x, apple.y, NamedSymbol.apple, ac);
 
 		Block current = head.next;;
 		while (current != null) {
@@ -208,7 +213,7 @@ class Snake extends NGCKGame {
 	}
 
 	public static void main(String args[]) {
-		Snake game = new Snake(21, "Goncharow", "1198800260219");
+		Snake game = new Snake(10, "username", "apikey");
 		game.setTitle("snake");
 
 		game.start();

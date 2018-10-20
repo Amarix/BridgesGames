@@ -137,7 +137,7 @@ public class BUGSTOMP extends NGCKGame {
 	public static void main(String args[]) {
 		
 		// Initialize our nonblocking game
-		BUGSTOMP mg = new BUGSTOMP(20, "username", "apikey");
+		BUGSTOMP mg = new BUGSTOMP(12, "username", "apikey");
 		mg.setTitle("BUG STOMP");
 		mg.setDescription("Use the arrow keys to move the person over the bugs - don't let them escape!");
 		
