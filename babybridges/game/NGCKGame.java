@@ -1,9 +1,8 @@
 package babybridges.game;
 
 import bridges.connect.Bridges;
-import bridges.base.ColorGrid;
-import bridges.base.Color;
 import bridges.base.NamedColor;
+import bridges.base.NamedSymbol;
 import bridges.base.GameGrid;
 
 import babybridges.connect.SocketConnection;
@@ -58,7 +57,7 @@ public abstract class NGCKGame {
 	protected boolean KeyButton2() {
 		return ih.button2();
 	}
-	
+
 	// / @return true if "w" is pressed
 	protected boolean Keyw() {
 		return ih.w();
@@ -78,9 +77,9 @@ public abstract class NGCKGame {
 	protected boolean Keyd() {
 		return ih.d();
 	}
-	
-	
-	
+
+
+
 
 	// /takes bridges credential and information as a parameter.
 	public NGCKGame(int assid, String login, String apiKey) {
@@ -102,11 +101,11 @@ public abstract class NGCKGame {
 
 		ih = new InputHelper(sock);
 	}
-	
+
 	protected void setTitle(String title) {
 		bridges.setTitle(title);
 	}
-	
+
 	protected void setDescription(String desc) {
 		bridges.setDescription(desc);
 	}
@@ -123,10 +122,22 @@ public abstract class NGCKGame {
 		grid.setFGColor(y, x, c);
 	}
 
-	// /set foreground color of cell x, y to s
+	// /set symbol of cell x, y to s
 	// /
 	protected void SetSymbol(int x, int y, int s) {
 		grid.drawObject(y, x, s);
+	}
+
+	// /set symbol of cell x, y to s
+	// /
+	protected void DrawObject(int x, int y, NamedSymbol s) {
+		grid.drawObject(y, x, s);
+	}
+
+	// /set symbol and foreground color of cell x, y to s and c
+	// /
+	protected void DrawObject(int x, int y, NamedSymbol s, NamedColor c) {
+		grid.drawObject(y, x, s, c);
 	}
 
 	// / function to define by the programmer. This function is called

@@ -23,7 +23,7 @@ class MinimalGameStub extends NGCKGame {
 
 	// Game loop will run many times per second.
 	public void GameLoop(){
-		if (KeyUp()) System.out.println("The up key is currently pressed!")
+		if (KeyUp()) System.out.println("The up key is currently pressed!");
 
 	}
 

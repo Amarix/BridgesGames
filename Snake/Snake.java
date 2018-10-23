@@ -50,7 +50,7 @@ class Snake extends NGCKGame {
 	}
 
 	public void updatePosition() {
-	
+
 		Block current = head.next;
 		int nextX = head.x;
 		int nextY = head.y;
@@ -65,7 +65,7 @@ class Snake extends NGCKGame {
 			nextY = tempY;
 			current = current.next;
 		}
-		
+
 		switch(dir) {
 			case NORTH:
 				head.y--;
@@ -147,12 +147,12 @@ class Snake extends NGCKGame {
 					SetBGColor(i, j, bc);
 			}
 		}
-		
+
 		SetBGColor(head.x, head.y, hc);
-		
+
 		DrawObject(apple.x, apple.y, NamedSymbol.apple, ac);
 
-		Block current = head.next;;
+		Block current = head.next;
 		while (current != null) {
 			SetBGColor(current.x, current.y, fg);
 			current = current.next;
@@ -160,7 +160,7 @@ class Snake extends NGCKGame {
 	}
 
 	// Set up the first state of the game grid
-	public void initialize(){ 
+	public void initialize(){
 
 		for (int i = 0; i < gridColumns; ++i) {
 			for (int j = 0; j < gridRows; ++j) {
@@ -190,10 +190,10 @@ class Snake extends NGCKGame {
 		apple = new Block();
 		plantApple();
 	}
-	
+
 	// Game loop will run many times per second.
 	public void GameLoop() {
-		
+
 		handleInput();
 		if (System.nanoTime() > nextFrameTime) {
 			frameTime = System.nanoTime();
@@ -221,7 +221,7 @@ class Snake extends NGCKGame {
 }
 
 enum Direction {
-	NORTH, 
+	NORTH,
 	SOUTH,
 	EAST,
 	WEST
