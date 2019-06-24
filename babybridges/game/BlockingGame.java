@@ -1,6 +1,8 @@
 package babybridges.game;
 
 import bridges.connect.Bridges;
+import bridges.base.NamedColor;
+import bridges.base.NamedSymbol;
 import bridges.base.GameGrid;
 import babybridges.connect.KeypressListener;
 
@@ -12,14 +14,14 @@ import java.util.ArrayDeque;
 
 import babybridges.connect.SocketConnection;
 
-public class BlockingGame implements KeypressListener {
+public abstract class BlockingGame implements KeypressListener {
 
-	boolean firsttime;
-	Bridges bridges;
-	GameGrid gg;
-	SocketConnection sock;
+	private boolean firsttime;
+	private Bridges bridges;
+	protected GameGrid grid;
+	private SocketConnection sock;
 
-	Queue<String> keyqueue;
+	protected Queue<String> keyqueue;
 
 	public void keypress(JSONObject keypress) {
 		String type = "";
@@ -64,12 +66,12 @@ public class BlockingGame implements KeypressListener {
 		return ret;
 	}
 
-	public GameGrid getGameGrid() {
-		return gg;
+	protected GameGrid getGameGrid() {
+		return grid;
 	}
 
 	public BlockingGame(int assignmentID, String username, String apikey,
-			int gridsizeX, int gridsizeY) {
+			int rows, int cols) {
 		firsttime = true;
 
 		// bridges-sockets account (you need to make a new account:
@@ -80,7 +82,7 @@ public class BlockingGame implements KeypressListener {
 		bridges.setServer("games");
 
 		// create a new color grid with random color
-		gg = new GameGrid(gridsizeX, gridsizeY);
+		grid = new GameGrid(rows, cols);
 
 		keyqueue = new ArrayDeque<String>();
 
@@ -89,21 +91,65 @@ public class BlockingGame implements KeypressListener {
 		sock.setupConnection(bridges.getUserName(), bridges.getAssignment());
 
 		sock.addListener(this);
+
+		init();
 	}
+
+	protected abstract init();
 	
-	public void setTitle(String title) {
+	protected void setTitle(String title) {
 		bridges.setTitle(title);
 	}
 	
-	public void setDescription(String desc) {
+	protected void setDescription(String desc) {
 		bridges.setDescription(desc);
 	}
+        
+	// /set background color of cell x, y to c
+	// /
+	protected void SetBGColor(int x, int y, NamedColor c) {
+		grid.setBGColor(y, x, c);
+	}
 
-	public void render() {
+	// /set foreground color of cell x, y to c
+	// /
+	protected void SetFGColor(int x, int y, NamedColor c) {
+		grid.setFGColor(y, x, c);
+	}
+
+	// /set symbol of cell x, y to s
+	// /
+	protected void SetSymbol(int x, int y, int s) {
+		grid.drawObject(y, x, s);
+	}
+
+	// /set symbol of cell x, y to s
+	// /
+	protected void DrawObject(int x, int y, NamedSymbol s) {
+		grid.drawObject(y, x, s);
+	}
+
+	// /set symbol and foreground color of cell x, y to s and c
+	// /
+	protected void DrawObject(int x, int y, NamedSymbol s, NamedColor c) {
+		grid.drawObject(y, x, s, c);
+	}
+        
+        protected int GetBGColor(int col, int row){
+            int color = grid.get(col, row).getBGColor();
+            return color;
+        }
+        
+        protected String GetKeyPress(){
+            String kp = bridges.getKeyPress();
+            return kp;
+        }
+
+	protected void render() {
 		if (firsttime) {
 			firsttime = false;
 			// associate the grid with the Bridges object
-			bridges.setDataStructure(gg);
+			bridges.setDataStructure(grid);
 
 			// visualize the grid
 			try {
@@ -113,7 +159,7 @@ public class BlockingGame implements KeypressListener {
 			}
 		}
 
-		String gridState = gg.getDataStructureRepresentation();
+		String gridState = grid.getDataStructureRepresentation();
 		String gridJSON = '{' + gridState;
 		// System.out.println(gridJSON);
 
@@ -121,7 +167,7 @@ public class BlockingGame implements KeypressListener {
 		sock.sendData(gridJSON);
 	}
 
-	public void quit() {
+	protected void quit() {
 		sock.close();
 	}
 }

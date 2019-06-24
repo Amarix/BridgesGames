@@ -14,65 +14,65 @@ import bridges.connect.Bridges;
 /* 
  * 
  */
-public class Minesweeper {
+public class Minesweeper extends BlockingGame{
 
 	// set up default colors, symbols, positions, and sizes for the game grid
 	static int numRows = 5;
 	static int numCols = 5;
-	static GameGrid gg;
-	static NamedColor oldColor;
-	static NamedColor color = NamedColor.grey;
-	static NamedSymbol mine = NamedSymbol.bomb;
-	static NamedSymbol flag = NamedSymbol.flag;
-	static int[] currPos = { numRows/2, numCols/2 };
+	NamedColor oldColor;
+	NamedColor color = NamedColor.grey;
+	NamedSymbol mine = NamedSymbol.bomb;
+	NamedSymbol flag = NamedSymbol.flag;
+	int[] currPos = { numRows/2, numCols/2 };
 	
 	// keep a grid of 0 or 1 for mine positions
-	static Grid<Integer> mines;
-	static int numMines;
+	Grid<Integer> mines;
+	int numMines;
 	
 	// keep sentinel variables for continuing, restarting, or quitting
-	static boolean gameOver;
-	static boolean quit;
+	boolean gameOver;
+	boolean quit;
 	
 	// keep a grid of integers for the state of each cell (flagged, numbered, opened, etc).
-	static Grid<Integer> state;
-	static int openCells = 0;
+	Grid<Integer> state;
+	int openCells = 0;
 
+        public Minesweeper(int assid, String login, String apiKey, int row, int col) {
+            super(assid, login, apiKey, row, col);
+        }
 	
 	public static void main (String args[]) {
 	    	
     	// Initialize our blocking game
-	 	BlockingGame bg = new BlockingGame(11, "username", "apikey", numRows, numCols);
-	 	bg.setTitle("Minesweeper");
-		bg.setDescription("Keys:\nClick: Space\nRefresh: 'r'\nFlag: 'f'");
-	 		
-	 	
-	 	// This is the grid we will modify 
- 	 	//  use gg.setBGColor to set the background color of a cell
- 	 	//  use gg.drawObject to draw a symbol (perhaps with a particular color) in a cell
-	 	gg = bg.getGameGrid();
-	 	
-	 	// Initialize variables and paint the first game grid
-	 	setupgg(gg);
-		
-	 	// Render initial gg
-		bg.render();
-		
-		// Main game loop
-		while (!quit) {
-			
-			// Handle each keypress
-			handleKeypress(bg.getKeyPress());
-			
-		    // Render the next state of the grid
-			bg.render();
-		}
-		
+	 	Minesweeper bg = new Minesweeper(11, "username", "apikey", numRows, numCols);
+                
 		System.exit(0);
     }
+        public void init(){
+            
+            // Title and description of game
+            setTitle("Minesweeper");
+            setDescription("Keys:\nClick: Space\nRefresh: 'r'\nFlag: 'f'");
+                
+            // Initialize variables and paint the first game grid
+            setupgg();
+                
+            // Render initial gg
+            render();
+                
+            // Main game loop
+            while (!quit) {
+
+                    // Handle each keypress
+                    handleKeypress(GetKeyPress());
+
+                // Render the next state of the grid
+                    render();
+            }
+        }
 
 	// handle keypress events from the player
-	public static void handleKeypress(String k) {
+	public void handleKeypress(String k) {
 		// System.out.println (k);
 
 		switch(k) {
@@ -101,7 +101,7 @@ public class Minesweeper {
 	}
 
 	// Handle 'clicking' on a particular cell
-	public static void clickCell() {
+	public void clickCell() {
 		int i = currPos[0]; // row
 		int j = currPos[1]; // col
 
@@ -122,23 +122,23 @@ public class Minesweeper {
 	}
 
 	// add or remove a flag from the current cell selection
-	public static void flag() {
+	public void flag() {
 		int i = currPos[0]; // row
 		int j = currPos[1]; // col
 
 		// add or remove flag
 		if (state.get(i, j) == 0) {
-			gg.drawObject(i, j, flag, NamedColor.green);
+			DrawObject(i, j, flag, NamedColor.green);
 			state.set(i, j, 2);
 			checkVictory();
 		} else {
-			gg.drawObject(i, j, 0, NamedColor.white);
+			DrawObject(i, j, 0, NamedColor.white);
 			state.set(i, j, 0);
 		}
 	}
 
 	// Recursively visit a cell. If it has no adjacent mines, visit its neighbors. 
-	public static void visitCell(int i, int j) {
+	public void visitCell(int i, int j) {
 		if (state.get(i, j) > 0) {
 			return;
 		}
@@ -178,12 +178,12 @@ public class Minesweeper {
 
 		// draw the current cell
 		if (adjacentMines > 0) {
-			gg.drawObject(i, j, 53 + adjacentMines);
-			gg.setBGColor(i, j, NamedColor.lightgrey);
+			DrawObject(i, j, 53 + adjacentMines);
+			SetBGColor(i, j, NamedColor.lightgrey);
 		}
 		// recursively visit adjacent cells if no adjacent mines
 		else {
-			gg.setBGColor(i, j, NamedColor.lightgrey);
+			SetBGColor(i, j, NamedColor.lightgrey);
 			if (j > 0) {
 				visitCell(i, j - 1); // left
 				if (i > 0)
@@ -208,19 +208,19 @@ public class Minesweeper {
 	}
 
 	// after losing, show all the mine positions
-	public static void highlightMines() {
+	public void highlightMines() {
 		for (int i = 0; i < numRows; i++) { // rows
 			for (int j = 0; j < numCols; j++) { // cols
 				if (mines.get(i, j) == 1) {
-					gg.setBGColor(i, j, NamedColor.red);
-					gg.drawObject(i, j, mine, NamedColor.black);
+					SetBGColor(i, j, NamedColor.red);
+					DrawObject(i, j, mine, NamedColor.black);
 				}
 			}
 		}
 	}
 
 	// Move the current cell selection 
-	public static void moveSelection(String key) {
+	public void moveSelection(String key) {
 		if (gameOver)
 			return;
 
@@ -246,25 +246,25 @@ public class Minesweeper {
 		}
 
 		// update the old color (previously selected cell)
-		gg.setBGColor(oldPos[0], oldPos[1], oldColor);
-		if (gg.get(currPos[0], currPos[1]).getBGColor() == 73) {
+		SetBGColor(oldPos[0], oldPos[1], oldColor);
+		if (GetBGColor(currPos[0], currPos[1]) == 73) {
 			oldColor = NamedColor.lightgrey;
-		} else if (gg.get(currPos[0], currPos[1]).getBGColor() == 54) {
+		} else if (GetBGColor(currPos[0], currPos[1])== 54) {
 			oldColor = NamedColor.grey;
 		}
 		// highlight the current selected cell
-		gg.setBGColor(currPos[0], currPos[1], NamedColor.gold);
+		SetBGColor(currPos[0], currPos[1], NamedColor.gold);
 
 	}
 
 	// reinitialize everything and start over
-	public static void restart() {
+	public void restart() {
 		gameOver = false;
-		setupgg(gg);
+		setupgg();
 	}
 
 	// see if all the mines have been flagged
-	public static void checkVictory() {
+	public void checkVictory() {
 		int flaggedMines = 0;
 		for (int i = 0; i < numRows; i++) { // rows
 			for (int j = 0; j < numCols; j++) { // cols
@@ -275,12 +275,12 @@ public class Minesweeper {
 	}
 	
 	// you won! Show all the mines you found. 
-	public static void victory() {
+	public void victory() {
 		for (int i = 0; i < numRows; i++) { // rows
 			for (int j = 0; j < numCols; j++) { // cols
 				if (mines.get(i, j) == 1) {
-					gg.setBGColor(i, j, NamedColor.black);
-					gg.drawObject(i, j, 99, NamedColor.gold);
+					SetBGColor(i, j, NamedColor.black);
+					DrawObject(i, j, 99, NamedColor.gold);
 				}
 			}
 		}
@@ -288,7 +288,7 @@ public class Minesweeper {
 	}
 
 	// Initialize positions, counts, and board states
-	public static void setupgg(GameGrid grid) {
+	public void setupgg() {
 		openCells = 0;
 		setupMines();
 		initializeState();
@@ -297,18 +297,18 @@ public class Minesweeper {
 		// draw minesweeper gg
 		for (int i = 0; i < numRows; i++) { // rows
 			for (int j = 0; j < numCols; j++) { // cols
-				grid.setBGColor(i, j, NamedColor.grey);
-				grid.drawObject(i, j, NamedSymbol.none, NamedColor.white);
+				SetBGColor(i, j, NamedColor.grey);
+				DrawObject(i, j, NamedSymbol.none, NamedColor.white);
 			}
 		}
 
 		// draw current position
 		oldColor = NamedColor.grey;
-		grid.setBGColor(currPos[0], currPos[1], NamedColor.gold);
+		SetBGColor(currPos[0], currPos[1], NamedColor.gold);
 	}
 
 	// Initialize the state representation
-	public static void initializeState() {
+	public void initializeState() {
 		state = new Grid<Integer>(numRows, numCols);
 		for (int i = 0; i < numRows; i++) { // rows
 			for (int j = 0; j < numCols; j++) { // cols
@@ -319,7 +319,7 @@ public class Minesweeper {
 
 	// Initialize a new set of mines
 	// 0 = empty, 1 = mine
-	public static void setupMines() {
+	public void setupMines() {
 		mines = new Grid<Integer>(numRows, numCols);
 		for (int i = 0; i < numRows; i++) { // rows
 			for (int j = 0; j < numCols; j++) { // cols
